@@ -22,14 +22,16 @@
 
 set -e
 
+SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
+
 # Exclude this whole repository
-GREP_EXCLUDE="`dirname $0`/"
+GREP_EXCLUDE="$SCRIPT_DIR/"
 
 # Pyflakes
 PYFLAKES_BIN="pyflakes"
 
 # PEP8
-PEP8_BIN="`dirname $0`/pep8.py"
+PEP8_BIN="$SCRIPT_DIR/pep8.py"
 # TODO:
 # E125 - continuation line does not distinguish itself from next logical line
 PEP8_ARGS="--count --repeat \
@@ -94,6 +96,8 @@ _run_pylint() {
     PYLINT_VERSION=`pylint --version 2> /dev/null|head -1|cut -d\  -f2|cut -d, -f1`
     if [ "$PYLINT_VERSION" = "0.26.0" ]; then
         PYLINT_DISABLED+=('R0924',)  # TODO: Badly implemented Container
+        # Newer versions doesn't have this option anymore
+        PYLINT_EXTRA_ARGS+="--include-ids=y"
     fi
 
     SAVE_IFS=$IFS
@@ -104,12 +108,13 @@ _run_pylint() {
     PYLINT_BIN="pylint"
     PYLINT_ARGS="--disable=$PYLINT_DISABLEDJOIN \
                  --dummy-variables=unused,_ \
-                 --include-ids=y \
-                 --load-plugins tools/pylint_stoq.py \
-                 --rcfile=tools/pylint.rcfile \
-                 --reports=n"
+                 --load-plugins pylint_stoq \
+                 --rcfile=$SCRIPT_DIR/pylint/pylint.rcfile \
+                 --reports=n \
+                 $PYLINT_EXTRA_ARGS"
 
-    $PYLINT_BIN $PYLINT_ARGS $1
+    # The pylint_stoq needs to be on PYTHONPATH
+    PYTHONPATH="$SCRIPT_DIR/pylint:$PYTHONPATH" $PYLINT_BIN $PYLINT_ARGS $1
 }
 
 _run() {
