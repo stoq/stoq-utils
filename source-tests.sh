@@ -131,7 +131,7 @@ _run() {
   $PEP8_BIN $PEP8_ARGS $FILES
 
   # This variable can be exported on the Makefile
-  if [ "$DISABLE_PYLINT" = "1" ]; then
+  if [ "$PYLINT_ENABLED" = "1" ]; then
     echo "* Pylint"
     _run_pylint "$FILES"
   fi
