@@ -24,3 +24,5 @@ check-source:
 
 check-source-all:
 	@utils/source-tests.sh
+
+.PHONY: check-source check-source-all
