@@ -28,6 +28,10 @@
 # script and add the line above at the end of it.
 #
 
+# This needs to be the first command or $_ will change.
+# This should work on bash and zsh
+_DIRNAME=`dirname ${BASH_SOURCE:-$_}`
+
 _stoq_deactivate () {
     if [ -n "$_OLD_PATH" ]; then
         PATH="$_OLD_PATH"
@@ -90,15 +94,13 @@ else
     }
 fi
 
-_DIRNAME=`dirname $0`
 if [ -f "$_DIRNAME/.gitmodules" ]; then
     # The script is in a submodule
+    _DIRNAME=$_DIRNAME/../..
+else
     _DIRNAME=$_DIRNAME/..
 fi
-
-cd $_DIRNAME
-_CHECKOUT=`pwd`
-cd - > /dev/null
+_CHECKOUT=`readlink -f $_DIRNAME`
 
 _OLD_PATH="$PATH"
 _OLD_PYTHONPATH="$PYTHONPATH"
