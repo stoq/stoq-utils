@@ -19,70 +19,135 @@
 # Author(s): Stoq Team <stoq-devel@async.com.br>
 #
 
-set -e
+#
+# This script is inspired by virtualenv's activate. It should be sourced like:
+#
+#     . stoq/utils/env.sh
+#
+# It can also be used together with virtualenv. For that, modify it's activate
+# script and add the line above at the end of it.
+#
 
-# FIXME: This will not work when calling this script from stoq-utils
-TOOLSDIR=`dirname $0`
-cd $TOOLSDIR/../..
-CHECKOUT=`pwd`
-cd - > /dev/null
-
-if [ -d "$CHECKOUT/.repo/" ]; then
-    # When using repo, put 'stoq' on TREE for PS1
-    TREE="stoq"
-else
-    # If no repo, use the base directory name as the branch for PS1
-    TREE=`basename $CHECKOUT`
-fi
-
-for PROJECT in `ls $CHECKOUT | sort`; do
-    PROJECT_PATH="$CHECKOUT/$PROJECT"
-    # Make sure we add new hooks every time the shell inits
-    if [ -d "$PROJECT_PATH/utils/git-hooks/" ]; then
-        cp -au $PROJECT_PATH/utils/git-hooks/* \
-               $PROJECT_PATH/.git/hooks/
+_stoq_deactivate () {
+    if [ -n "$_OLD_PATH" ]; then
+        PATH="$_OLD_PATH"
+        export PATH
+        unset _OLD_PATH
+    fi
+    if [ -n "$_OLD_PYTHONPATH" ]; then
+        PYTHONPATH="$_OLD_PYTHONPATH"
+        export PYTHONPATH
+        unset _OLD_PYTHONPATH
     fi
 
-    PO_FILE="$PROJECT_PATH/po/pt_BR.po"
-    MO_DIR="$PROJECT_PATH/locale/pt_BR/LC_MESSAGES"
-    MO_FILE="$MO_DIR/stoq.mo"
-    # Compile translations for pt_BR if they exist and are newer than existing
-    if [ -f "$PO_FILE" ] && [ "$PO_FILE" -nt "$MO_FILE" ]; then
-        mkdir -p $MO_DIR
-        msgfmt $PO_FILE -o $MO_FILE
+    # This should detect bash and zsh, which have a hash command that must
+    # be called to get it to forget past commands.  Without forgetting
+    # past commands the $PATH changes we made may not be respected
+    if [ -n "$BASH" -o -n "$ZSH_VERSION" ]; then
+        hash -r
+    fi
+
+    if [ -n "$_OLD_PS1" ]; then
+        PS1="$_OLD_PS1"
+        export PS1
+        unset _OLD_PS1
+    fi
+
+    unset STOQLIB_TEST_QUICK
+    unset STOQ_DISABLE_CRASHREPORT
+    if [ ! "$1" = "nondestructive" ]; then
+        # Self destruct!
+        unset -f _stoq_deactivate
+    fi
+}
+
+if [ -n "$VIRTUAL_ENV" ]; then
+    # Based on http://mivok.net/2009/09/20/bashfunctionoverrist.html
+    _save_function () {
+        local ORIG_FUNC=$(declare -f $1)
+        local NEWNAME_FUNC="$2${ORIG_FUNC#$1}"
+        eval "$NEWNAME_FUNC"
+    }
+    _save_function deactivate _virtualenv_deactivate
+
+    deactivate () {
+        _stoq_deactivate $@
+        _virtualenv_deactivate $@
+        if [ ! "$1" = "nondestructive" ]; then
+            # virtualenv will unset deactivate and _stoq_deactivate will unset
+            # itself, so we need to unset _virtualenv_deactivate here
+            unset -f _virtualenv_deactivate
+            unset -f _save_function
+        fi
+    }
+else
+    deactivate () {
+        _stoq_deactivate $@
+        if [ ! "$1" = "nondestructive" ]; then
+            # Self destruct!
+            unset -f deactivae
+        fi
+    }
+fi
+
+_DIRNAME=`dirname $0`
+if [ -f "$_DIRNAME/.gitmodules" ]; then
+    # The script is in a submodule
+    _DIRNAME=$_DIRNAME/..
+fi
+
+cd $_DIRNAME
+_CHECKOUT=`pwd`
+cd - > /dev/null
+
+_OLD_PATH="$PATH"
+_OLD_PYTHONPATH="$PYTHONPATH"
+
+for _PROJECT in `ls $_CHECKOUT | sort`; do
+    _PROJECT_PATH="$_CHECKOUT/$_PROJECT"
+    # Make sure we add new hooks every time the shell inits
+    if [ -d "$_PROJECT_PATH/utils/git-hooks/" ]; then
+        cp -au $_PROJECT_PATH/utils/git-hooks/* \
+               $_PROJECT_PATH/.git/hooks/
     fi
 
     # Put all projects inside checkout on PYTHONPATH and the ones having a
     # bin directory on PATH
-    EXTRA_PYTHONPATH="$PROJECT_PATH:$EXTRA_PYTHONPATH"
-    if [ -d "$PROJECT_PATH/bin/" ]; then
-        EXTRA_PATH="$PROJECT_PATH/bin:$EXTRA_PATH"
+    PYTHONPATH="$_PROJECT_PATH:$PYTHONPATH"
+    if [ -d "$_PROJECT_PATH/bin" ]; then
+        PATH="$_PROJECT_PATH/bin:$PATH"
     fi
 done
 
-SCRIPT=`tempfile --suffix=.sh`
-trap "rm $SCRIPT" EXIT
+export PATH
+export PYTHONPATH
 
-cat <<EOF > $SCRIPT
-# This list of environment variables are placed before the source lines,
-# so that they can be customized in the users ~/.bashrc
-export STOQ_BRANCH=$TREE
+# Don't modify PS1 if inside a virtualenv. This allows for someone to
+# source this file at the end of virtualenv's activate script
+if [ -z "$VIRTUAL_ENV" ]; then
+    _OLD_PS1="$PS1"
+
+    if [ -d "$_CHECKOUT/.repo/" ]; then
+        # When using repo, put 'stoq' as the name of the environment
+        PS1="(stoq)$PS1"
+    else
+        PS1="(`basename $_CHECKOUT`)$PS1"
+    fi
+
+    export PS1
+fi
+
 export STOQLIB_TEST_QUICK=1
 export STOQ_DISABLE_CRASHREPORT=1
 
-test -f /etc/bash_completion && source /etc/bash_completion
-test -f ~/.bashrc && source ~/.bashrc
+unset _DIRNAME
+unset _CHECKOUT
+unset _PROJECT
+unset _PROJECT_PATH
 
-# This is updated after the users environment variables has been loaded
-# No need to put ':' separating them because there should already be a
-# trailing ':' because of the logic above for creating them
-export PATH=$EXTRA_PATH\$PATH
-export PYTHONPATH=$EXTRA_PYTHONPATH\$PYTHONPATH
-
-# cd to the working tree, so we are ready to work!
-cd $CHECKOUT
-EOF
-
-# We should be able to setup everything without having to call bash again.
-# This will make this usable for people using other shells (like fish)
-bash --rcfile $SCRIPT
+# This should detect bash and zsh, which have a hash command that must
+# be called to get it to forget past commands.  Without forgetting
+# past commands the $PATH changes we made may not be respected
+if [ -n "$BASH" -o -n "$ZSH_VERSION" ]; then
+    hash -r
+fi
