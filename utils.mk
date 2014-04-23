@@ -19,10 +19,30 @@
 # Author(s): Stoq Team <stoq-devel@async.com.br>
 #
 
+# This needs to be updated when a new Ubuntu release is out or
+# one of those reaches EOL
+SUPPORTED_DISTROS=precise quantal saucy trusty
+
 check-source:
 	@utils/source-tests.sh --modified
 
 check-source-all:
 	@utils/source-tests.sh
+
+dist:
+	python setup.py sdist
+	tar -zxvf dist/*.tar.gz -C dist
+
+debsource: dist
+	cd dist/* && \
+	for dist in ${SUPPORTED_DISTROS}; do \
+		sed -i "1 s/~[a-z0-9]\+)/)/g" debian/changelog; \
+		sed -i "1 s/) .\+;/~$${dist}$${EXTRA_VERSION}) $${dist};/g" debian/changelog; \
+		debuild --preserve-env -S; \
+	done
+	@echo "To upload the sources to the ppa you can run:"
+	@echo
+	@echo "    dput <ppa_name> dist/*.changes"
+	@echo
 
 .PHONY: check-source check-source-all
