@@ -89,12 +89,12 @@ else
         _stoq_deactivate $@
         if [ ! "$1" = "nondestructive" ]; then
             # Self destruct!
-            unset -f deactivae
+            unset -f deactivate
         fi
     }
 fi
 
-if [ -f "$_DIRNAME/.gitmodules" ]; then
+if [ -f "$_DIRNAME/../.gitmodules" ]; then
     # The script is in a submodule
     _DIRNAME=$_DIRNAME/../..
 else
