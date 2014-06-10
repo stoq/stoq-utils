@@ -21,13 +21,16 @@
 
 # This needs to be updated when a new Ubuntu release is out or
 # one of those reaches EOL
-SUPPORTED_DISTROS=precise quantal saucy trusty
+SUPPORTED_DISTROS=precise saucy trusty
 
 check-source:
 	@utils/source-tests.sh --modified
 
 check-source-all:
 	@utils/source-tests.sh
+
+virtualenv-deps:
+	pip install -r requirements.txt
 
 dist:
 	python setup.py sdist
@@ -45,4 +48,10 @@ debsource: dist
 	@echo "    dput <ppa_name> dist/*.changes"
 	@echo
 
-.PHONY: check-source check-source-all
+wheel:
+	python setup.py sdist bdist_wheel
+
+wheel-upload:
+	python setup.py sdist bdist_wheel upload
+
+.PHONY: check-source check-source-all virtualenv-deps debsource wheel pypi-upload
