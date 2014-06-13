@@ -39,8 +39,8 @@ dist:
 debsource: dist
 	cd dist/* && \
 	for dist in ${SUPPORTED_DISTROS}; do \
-		sed -i "1 s/~[a-z0-9]\+)/)/g" debian/changelog; \
-		sed -i "1 s/) .\+;/~$${dist}$${EXTRA_VERSION}) $${dist};/g" debian/changelog; \
+		sed -i "1 s/-1[a-z0-9]\+)/)/g" debian/changelog; \
+		sed -i "1 s/) .\+;/-1$${dist}$${EXTRA_VERSION}) $${dist};/g" debian/changelog; \
 		debuild --preserve-env -S; \
 	done
 	@echo "To upload the sources to the ppa you can run:"
