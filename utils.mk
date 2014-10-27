@@ -21,7 +21,7 @@
 
 # This needs to be updated when a new Ubuntu release is out or
 # one of those reaches EOL
-SUPPORTED_DISTROS=precise saucy trusty
+SUPPORTED_DISTROS=precise trusty utopic
 
 check-source:
 	@utils/source-tests.sh --modified
