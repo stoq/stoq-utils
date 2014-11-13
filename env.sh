@@ -66,11 +66,11 @@ _stoq_deactivate () {
 }
 
 if [ -n "$VIRTUAL_ENV" ]; then
-    # Based on http://mivok.net/2009/09/20/bashfunctionoverrist.html
-    _save_function () {
-        local ORIG_FUNC=$(declare -f $1)
-        local NEWNAME_FUNC="$2${ORIG_FUNC#$1}"
-        eval "$NEWNAME_FUNC"
+    # Based on http://stackoverflow.com/questions/1203583/how-do-i-rename-a-bash-function
+    _save_function() {
+        declare -F "$1" > /dev/null || return 1
+        local func="$(declare -f "$1")"
+        eval "${2}(${func#*\(}"
     }
     _save_function deactivate _virtualenv_deactivate
 
