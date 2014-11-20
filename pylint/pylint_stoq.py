@@ -158,7 +158,8 @@ class FakeBuilder(object):
         import gtk
         if not delegate.gladefile:
             return
-        f = environ.find_resource('glade', delegate.gladefile + '.ui')
+        f = environ.get_resource_filename('stoq', 'glade',
+                                          delegate.gladefile)
         tree = BuilderWidgetTree(delegate, f, None)
 
         t = ''
