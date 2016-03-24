@@ -21,7 +21,7 @@
 
 # This needs to be updated when a new Ubuntu release is out or
 # one of those reaches EOL
-SUPPORTED_DISTROS=precise trusty vivid wily
+SUPPORTED_DISTROS=precise trusty vivid wily xenial
 
 check-source:
 	@utils/source-tests.sh --modified
@@ -35,6 +35,10 @@ virtualenv-deps:
 dist:
 	python setup.py sdist
 	tar -zxvf dist/*.tar.gz -C dist
+
+deb: dist
+	cd dist/* && \
+	debuild --preserve-env -us -uc;
 
 debsource: dist
 	cd dist/* && \
