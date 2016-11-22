@@ -21,7 +21,7 @@
 
 # This needs to be updated when a new Ubuntu release is out or
 # one of those reaches EOL
-SUPPORTED_DISTROS=precise trusty vivid wily xenial
+SUPPORTED_DISTROS=precise trusty vivid wily xenial yakkety zesty
 
 check-source:
 	@utils/source-tests.sh --modified
