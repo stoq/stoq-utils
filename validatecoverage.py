@@ -28,9 +28,10 @@ for module in sorted(coverage.findall('.//class')):
     if current != 100 and filename not in exceptions:
         errors.append("2: %s has a coverage of %s%%, but expected 100%%, "
                       "add it to %s:" % (
-                          filename, current * 100, exceptions_fname))
+                          filename, current, exceptions_fname))
         fixes.append(' "%s": %.2f' % (filename, current))
-    elif current < expected:
+    # The + 0.01 is to consider for the float arithmetic errors
+    elif (current + 0.01) < expected:
         errors.append("1: %s has a coverage of %s%%, but expected %s%%, "
                       "add more tests or update %s" % (
                           filename, current, expected, exceptions_fname))
