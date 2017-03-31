@@ -29,8 +29,8 @@ check-source:
 check-source-all:
 	@utils/source-tests.sh
 
-validate-coverage:
-	@utils/validatecoverage.py
+validatecoverage:
+	@utils/validatecoverage.py coverage.xml
 
 virtualenv-deps:
 	pip install -r requirements.txt
@@ -61,4 +61,4 @@ wheel:
 wheel-upload:
 	python setup.py sdist bdist_wheel upload
 
-.PHONY: check-source check-source-all validate-coverage virtualenv-deps debsource wheel pypi-upload
+.PHONY: check-source check-source-all validatecoverage virtualenv-deps debsource wheel pypi-upload
