@@ -23,7 +23,8 @@ for module in sorted(coverage.findall('.//class')):
 
     modules[filename] = module
     current = float(module.attrib.get('line-rate')) * 100
-    expected = float(exceptions.get(filename, 100))
+    # give a 1% room for small changes
+    expected = float(exceptions.get(filename, 101)) - 1
 
     if current != 100 and filename not in exceptions:
         errors.append("2: %s has a coverage of %s%%, but expected 100%%, "
