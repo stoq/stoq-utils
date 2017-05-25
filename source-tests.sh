@@ -28,7 +28,7 @@ SCRIPT_DIR=$(cd "$(dirname "$0")"; pwd)
 GREP_EXCLUDE="$SCRIPT_DIR/"
 
 # Pyflakes
-PYFLAKES_BIN="pyflakes"
+PYFLAKES_BIN="pyflakes3"
 
 # PEP8
 PEP8_BIN="$SCRIPT_DIR/pep8.py"
