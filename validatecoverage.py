@@ -16,7 +16,7 @@ with open(exceptions_fname) as f:
     exceptions = json.loads(f.read())
 
 
-for module in sorted(coverage.findall('.//class')):
+for module in coverage.findall('.//class'):
     filename = module.attrib['filename']
     if filename.endswith('__init__.py'):
         continue
