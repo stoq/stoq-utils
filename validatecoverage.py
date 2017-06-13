@@ -48,12 +48,12 @@ for filename in exceptions:
 
 
 for error in sorted(errors):
-    print 'ERROR:', error
+    print('ERROR:', error)
 
 
 if fixes:
-    print "FIXES:"
-    print ',\n'.join(sorted(fixes))
+    print("FIXES:")
+    print(',\n'.join(sorted(fixes)))
 
 
 sys.exit(len(errors))
