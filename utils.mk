@@ -61,4 +61,16 @@ wheel:
 wheel-upload:
 	python setup.py sdist bdist_wheel upload
 
+plugin-egg:
+	# Set current git commit to plugin config file
+	$(eval GIT_COMMIT=$(shell git rev-parse HEAD))
+	sed -i "s/GitCommit=.*/GitCommit=${GIT_COMMIT}/g" $(PACKAGE)/*.plugin
+	# build egg
+	python setup.py bdist_egg --exclude-source-files --dist-dir=dist
+	# clean up
+	rm -fr build
+	rm -fr $(PACKAGE).egg-info
+	# Fix egg pyc files
+	python fix_py3_egg.py dist/*py3.5.egg
+
 .PHONY: check-source check-source-all validatecoverage virtualenv-deps debsource wheel pypi-upload
