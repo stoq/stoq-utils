@@ -71,6 +71,6 @@ plugin-egg:
 	rm -fr build
 	rm -fr $(PACKAGE).egg-info
 	# Fix egg pyc files
-	python fix_py3_egg.py dist/*py3.5.egg
+	python utils/fix_py3_egg.py dist/*py3.5.egg
 
 .PHONY: check-source check-source-all validatecoverage virtualenv-deps debsource wheel pypi-upload
