@@ -21,7 +21,7 @@
 
 # This needs to be updated when a new Ubuntu release is out or
 # one of those reaches EOL
-SUPPORTED_DISTROS=trusty vivid xenial yakkety zesty
+SUPPORTED_DISTROS=trusty xenial zesty artful bionic
 
 check-source:
 	@utils/source-tests.sh --modified
@@ -65,11 +65,14 @@ plugin-egg:
 	# Set current git commit to plugin config file
 	$(eval GIT_COMMIT=$(shell git rev-parse --short HEAD))
 	sed -i "s/GitCommit=.*/GitCommit=${GIT_COMMIT}/g" $(PACKAGE)/*.plugin
+	# Compile main.py if exists
+	if [ -f __main__.py ]; then python -m py_compile __main__.py; fi
 	# build egg
 	python setup.py bdist_egg --exclude-source-files --dist-dir=dist
 	# clean up
 	rm -fr build
 	rm -fr $(PACKAGE).egg-info
+	if [ -f __main__.pyc ]; then rm __main__.pyc; fi
 	# Fix egg pyc files
 	python utils/fix_py3_egg.py dist/*py3.5.egg
 
