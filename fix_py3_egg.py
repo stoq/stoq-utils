@@ -34,7 +34,7 @@ import sys
 import tempfile
 from zipfile import ZipFile, ZIP_DEFLATED
 
-RE_PYCACHE_FILE = re.compile('(.+/)__pycache__/(.+)\.cpython-3\d(.pyc)$')
+RE_PYCACHE_FILE = re.compile('(.*\/?)__pycache__\/(.+)\.cpython-3\d(.pyc)$')
 
 with tempfile.TemporaryDirectory() as tmpdir:
     names_lst = []

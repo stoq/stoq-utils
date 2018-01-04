@@ -72,7 +72,8 @@ plugin-egg:
 	# clean up
 	rm -fr build
 	rm -fr $(PACKAGE).egg-info
-	if [ -f __main__.pyc ]; then rm __main__.pyc; fi
+	rm -f __main__.pyc
+	rm -f __pycache__/__main__.cpython-35.pyc
 	# Fix egg pyc files
 	python utils/fix_py3_egg.py dist/*py3.5.egg
 
