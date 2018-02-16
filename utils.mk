@@ -68,13 +68,13 @@ plugin-egg:
 	# Compile main.py if exists
 	if [ -f __main__.py ]; then python -m py_compile __main__.py; fi
 	# build egg
-	python setup.py bdist_egg --exclude-source-files --dist-dir=dist
+	python3 setup.py bdist_egg --exclude-source-files --dist-dir=dist
 	# clean up
 	rm -fr build
 	rm -fr $(PACKAGE).egg-info
 	rm -f __main__.pyc
 	rm -f __pycache__/__main__.cpython-35.pyc
 	# Fix egg pyc files
-	python utils/fix_py3_egg.py dist/*py3.5.egg
+	python3 utils/fix_py3_egg.py dist/*py3.5.egg
 
 .PHONY: check-source check-source-all validatecoverage virtualenv-deps debsource wheel pypi-upload
