@@ -36,7 +36,7 @@ virtualenv-deps:
 	pip install -r requirements.txt
 
 dist:
-	python setup.py sdist
+	python3 setup.py sdist
 	tar -zxvf dist/*.tar.gz -C dist
 
 deb: dist
