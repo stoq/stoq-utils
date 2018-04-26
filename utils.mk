@@ -21,7 +21,7 @@
 
 # This needs to be updated when a new Ubuntu release is out or
 # one of those reaches EOL
-SUPPORTED_DISTROS=trusty xenial zesty artful bionic
+SUPPORTED_DISTROS=xenial artful bionic
 
 check-source:
 	@utils/source-tests.sh --modified
