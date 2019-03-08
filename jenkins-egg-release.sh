@@ -67,7 +67,10 @@ if [ $GERRIT_EVENT_TYPE = "change-merged" ]; then
 fi
 
 if [[ ($VERSION_CHANGED = true || $MANUAL_BUILD = true) ]]; then
-  make && make plugin-egg || true
+  if [ $plugin_name = "stoq-plugin-sat" ]; then
+    make stoqsat/utils/stoq_sat
+  fi
+  make plugin-egg
   ls dist
 else
   echo "Version didn't change, no need for making an egg."
