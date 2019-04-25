@@ -24,6 +24,9 @@ elif [ $plugin_name = "stoq-plugin-sat" ]; then
 elif [ $plugin_name = "stoq-plugin-sitef" ]; then
   VERSION_FILE="stoqsitef/sitef.plugin"
   VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
+elif [ $plugin_name = "stoq-plugin-passbook" ]; then
+  VERSION_FILE="stoqpassbook/passbook.plugin"
+  VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
 else
   VERSION_FILE="setup.py"
   VERSION=`grep "version=\"" setup.py |sed -e "s/.*=\"//g" -e "s/\".*//g"`
