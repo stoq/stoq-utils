@@ -18,7 +18,8 @@ def main():
     project, issue = re.search("Fixes: https://gitlab.com/(.*)/issues/(\d+)", data).groups()
     assert project and issue, (project, issue)
 
-    gitlab_url = "/projects/{}/issues/{}/notes".format(project.replace('/', '%2F'), issue)
+    gitlab_url = "https://gitlab.com/api/v4/projects/{}/issues/{}/notes".format(
+                 project.replace('/', '%2F'), issue)
     requests.post(gitlab_url,
                   headers={"Private-Token": os.getenv("GITLAB_API_TOKEN")},
                   data={"body": os.getenv("GERRIT_CHANGE_URL")})
