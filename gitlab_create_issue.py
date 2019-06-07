@@ -2,6 +2,7 @@ import requests
 import os
 import inquirer
 import pyperclip
+import sys
 from prompt_toolkit import prompt
 
 
@@ -19,13 +20,27 @@ def get_members(group_project):
     return filtered_members
 
 
-def create():
+def main():
+    '''
+    Create Gitlab issues from terminal.
+    Gitlab access token is required and a environment var must be exported:
+    export GL_ACCESS_TOKEN='YOUR_GITLAB_ACCESS_TOKEN_HERE'
+
+    To commit to BdiL project directly, export the following environment vars:
+    export GL_SKIP_REPO_TYPES='True'
+    export GL_GROUP='stoqtech'
+    export GL_PROJECT='private/bdil'
+    '''
+
     access_token = os.getenv("GL_ACCESS_TOKEN")
     assert access_token, access_token
 
-    repo_types = ['personal', 'group']
-    questions = [inquirer.List('repo type', message="Repository type", choices=repo_types)]
-    repo_type = list(inquirer.prompt(questions).values())[0]
+    if os.getenv("GL_SKIP_REPO_TYPES"):
+        repo_type = 'group'
+    else:
+        repo_types = ['personal', 'group']
+        questions = [inquirer.List('repo type', message="Repository type", choices=repo_types)]
+        repo_type = list(inquirer.prompt(questions).values())[0]
 
     # Group or user
     if repo_type == 'group':
@@ -119,4 +134,7 @@ def create():
 
 
 if __name__ == '__main__':
-    create()
+    if len(sys.argv) > 1 and '-h' in sys.argv[1]:
+        help(main)
+    else:
+        main()
