@@ -8,28 +8,21 @@ cd $plugin_name
 
 echo $GERRIT_EVENT_TYPE
 
-# nfe, ntk, nofiscal plugin gets its version from a different file
-if [ $plugin_name = "stoq-plugin-nfe" ]; then
+if [ "$plugin_name" = "stoq-plugin-nfe" ]; then
   VERSION_FILE="stoqnfe/nfce.plugin"
   VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
-elif [ $plugin_name = "stoq-plugin-ntk" ]; then
-  VERSION_FILE="stoqntk/ntk.plugin"
-  VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
-elif [ $plugin_name = "stoq-plugin-nonfiscal" ]; then
-  VERSION_FILE="stoqnonfiscal/nonfiscal.plugin"
-  VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
-elif [ $plugin_name = "stoq-plugin-sat" ]; then
-  VERSION_FILE="stoqsat/sat.plugin"
-  VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
-elif [ $plugin_name = "stoq-plugin-sitef" ]; then
-  VERSION_FILE="stoqsitef/sitef.plugin"
-  VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
-elif [ $plugin_name = "stoq-plugin-passbook" ]; then
-  VERSION_FILE="stoqpassbook/passbook.plugin"
+elif [ "$plugin_name" = "stoq-plugin-cat" ]; then
+  VERSION_FILE="stoqcat/cat.plugin"
   VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
 else
-  VERSION_FILE="setup.py"
-  VERSION=`grep "version=\"" setup.py |sed -e "s/.*=\"//g" -e "s/\".*//g"`
+  SHORT_PLUGIN_NAME=`echo $plugin_name | sed s/stoq-plugin-//g`
+  if [ SHORT_PLUGIN_NAME != "" ]; then
+    VERSION_FILE="stoq"$SHORT_PLUGIN_NAME"/"$SHORT_PLUGIN_NAME".plugin"
+    VERSION=`grep "^Version=\(.*\)" "$VERSION_FILE" | sed "s/.*=//g"`
+  else
+    VERSION_FILE="setup.py"
+    VERSION=`grep "version=\"" setup.py |sed -e "s/.*=\"//g" -e "s/\".*//g"`
+  fi
 fi
 
 if [ -z "$GERRIT_EVENT_TYPE" ]; then
