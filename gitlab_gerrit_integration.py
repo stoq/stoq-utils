@@ -99,7 +99,7 @@ def main():
     # Populate code review values
     # The review values from older patch sets will be shown as 0. So only the current patch set
     # will be valid for the following activities
-    code_review_values = list(map(lambda item: item['value'], gerrit_reviews))
+    code_review_values = list(map(lambda item: item.get('value', 0), gerrit_reviews))
 
     # Modify issues based on code review
     if ((-1 or -2) in code_review_values):
