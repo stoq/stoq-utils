@@ -1,0 +1,6 @@
+upload_egg:
+  stage: deploy
+  only:
+    - master
+  script:
+    - curl -F "egg=@dist/`ls dist`" -F channel=dev ${EGG_UPLOAD_URL}
