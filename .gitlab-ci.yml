@@ -1,0 +1,6 @@
+image: cprov/stoq:candidate
+
+test:
+  # FIXME: We need to write tests for stoq-utils  
+  script:
+    - echo 1

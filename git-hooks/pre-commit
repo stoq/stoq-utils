@@ -1,5 +1,11 @@
 #!/bin/bash
 
+git diff --check --cached
+if [ $? -eq 2 ]; then
+  echo "Failed git diff --check. Please fix conflict markers and whitespace errors before committing."
+  exit 1
+fi
+
 set -e
 
 # pwd is already set to the project's root
