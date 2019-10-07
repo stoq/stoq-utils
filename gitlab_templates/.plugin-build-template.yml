@@ -1,0 +1,17 @@
+.create_egg:
+  stage: build
+  script:
+    - make plugin-egg
+  artifacts:
+    paths:
+      - dist/
+
+create_egg_master:
+  extends: .create_egg
+  only:
+    - master
+    - /^v[0-9]+$/
+
+create_egg_manual:
+  extends: .create_egg
+  when: manual

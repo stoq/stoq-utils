@@ -1,6 +1,15 @@
-upload_egg:
+upload_egg_dev:
   stage: deploy
   only:
     - master
   script:
     - curl -F "egg=@dist/`ls dist`" -F channel=dev ${EGG_UPLOAD_URL}
+
+upload_egg_beta:
+  stage: deploy
+  only:
+    - /^v[0-9]+$/
+  except:
+    - branches
+  script:
+    - curl -F "egg=@dist/`ls dist`" -F channel=alpha ${EGG_UPLOAD_URL}
