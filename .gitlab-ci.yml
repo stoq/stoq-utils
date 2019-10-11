@@ -1,6 +1,18 @@
 image: cprov/stoq:candidate
 
+before_script:
+  - easy_install3 pip
+  - pip install pytest pytest-cov vcrpy
+
+stages:
+  - test
+
+.only-default: &only-default
+  only:
+    - master
+    - merge_requests
+
 test:
-  # FIXME: We need to write tests for stoq-utils  
+  <<: *only-default
   script:
-    - echo 1
+    - pytest -x

@@ -1,0 +1,56 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.22.0
+    method: GET
+    uri: https://gitlab.com/api/v4/projects/project/issues/0
+  response:
+    body:
+      string: '{"message":"404 Project Not Found"}'
+    headers:
+      Cache-Control:
+      - no-cache
+      Content-Length:
+      - '35'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 07 Oct 2019 21:56:59 GMT
+      GitLab-LB:
+      - fe-08-lb-gprd
+      GitLab-SV:
+      - localhost
+      RateLimit-Limit:
+      - '600'
+      RateLimit-Observed:
+      - '2'
+      RateLimit-Remaining:
+      - '598'
+      RateLimit-Reset:
+      - '1570485479'
+      RateLimit-ResetTime:
+      - Mon, 07 Oct 2019 21:57:59 GMT
+      Server:
+      - nginx
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Request-Id:
+      - DgGngW3P3X6
+      X-Runtime:
+      - '0.017494'
+    status:
+      code: 404
+      message: Not Found
+version: 1

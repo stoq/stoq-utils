@@ -1,0 +1,74 @@
+interactions:
+- request:
+    body: null
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      User-Agent:
+      - python-requests/2.22.0
+    method: GET
+    uri: https://gitlab.com/api/v4/projects/stoqtech%2Fsquads%2Fkazoo%2Ftasks/issues/4
+  response:
+    body:
+      string: "{\"id\":24438967,\"iid\":4,\"project_id\":14120952,\"title\":\"Include
+        a check on the pipeline to check if the commit message contains a Fixes or
+        Related link.\",\"description\":\"We had a rule on jenkins/gerrit that prevented
+        a commit to be merged on the master branch when the commit message didnt included
+        a fixes url.\\n\\nThat is a nice thing to have, lets add a test for this on
+        the pipeline of all projects.\\n\\nThis is usefulfor closing issues automatically
+        and to have the related merge requests of an issue on an issue page.\\n\\nAlso,
+        this is a nice way to force us to document the things we are fixing.\",\"state\":\"opened\",\"created_at\":\"2019-09-03T20:41:44.495Z\",\"updated_at\":\"2019-10-03T19:57:03.191Z\",\"closed_at\":null,\"closed_by\":null,\"labels\":[\"priority:4\",\"scope:ci\",\"status:
+        To Do\"],\"milestone\":{\"id\":995405,\"iid\":30,\"group_id\":3849757,\"title\":\"Doa\xE7\xE3o
+        de \xD3rg\xE3os (Kazoo)\",\"description\":\"\",\"state\":\"active\",\"created_at\":\"2019-09-09T13:08:33.533Z\",\"updated_at\":\"2019-09-09T13:08:33.533Z\",\"due_date\":null,\"start_date\":null,\"web_url\":\"https://gitlab.com/groups/stoqtech/-/milestones/30\"},\"assignees\":[{\"id\":486435,\"name\":\"Lucas
+        Fonseca\",\"username\":\"lucasl2f\",\"state\":\"active\",\"avatar_url\":\"https://secure.gravatar.com/avatar/933ae081b5ff12f8c9c2aedb892cab34?s=80\\u0026d=identicon\",\"web_url\":\"https://gitlab.com/lucasl2f\"}],\"author\":{\"id\":205027,\"name\":\"Fabricio
+        C Zuardi\",\"username\":\"fczuardi\",\"state\":\"active\",\"avatar_url\":\"https://secure.gravatar.com/avatar/330a4335ebf7f08033d22064781c3c58?s=80\\u0026d=identicon\",\"web_url\":\"https://gitlab.com/fczuardi\"},\"assignee\":{\"id\":486435,\"name\":\"Lucas
+        Fonseca\",\"username\":\"lucasl2f\",\"state\":\"active\",\"avatar_url\":\"https://secure.gravatar.com/avatar/933ae081b5ff12f8c9c2aedb892cab34?s=80\\u0026d=identicon\",\"web_url\":\"https://gitlab.com/lucasl2f\"},\"user_notes_count\":1,\"merge_requests_count\":1,\"upvotes\":0,\"downvotes\":0,\"due_date\":null,\"confidential\":false,\"discussion_locked\":null,\"web_url\":\"https://gitlab.com/stoqtech/squads/kazoo/tasks/issues/4\",\"time_stats\":{\"time_estimate\":0,\"total_time_spent\":0,\"human_time_estimate\":null,\"human_total_time_spent\":null},\"task_completion_status\":{\"count\":0,\"completed_count\":0},\"has_tasks\":false,\"_links\":{\"self\":\"https://gitlab.com/api/v4/projects/14120952/issues/4\",\"notes\":\"https://gitlab.com/api/v4/projects/14120952/issues/4/notes\",\"award_emoji\":\"https://gitlab.com/api/v4/projects/14120952/issues/4/award_emoji\",\"project\":\"https://gitlab.com/api/v4/projects/14120952\"},\"subscribed\":true}"
+    headers:
+      Cache-Control:
+      - max-age=0, private, must-revalidate
+      Content-Length:
+      - '2470'
+      Content-Type:
+      - application/json
+      Date:
+      - Mon, 07 Oct 2019 21:56:11 GMT
+      Etag:
+      - W/"5a8e351d3b1ee4d74c1f1aecfab1d039"
+      GitLab-LB:
+      - fe-18-lb-gprd
+      GitLab-SV:
+      - localhost
+      RateLimit-Limit:
+      - '600'
+      RateLimit-Observed:
+      - '1'
+      RateLimit-Remaining:
+      - '599'
+      RateLimit-Reset:
+      - '1570485431'
+      RateLimit-ResetTime:
+      - Mon, 07 Oct 2019 21:57:11 GMT
+      Referrer-Policy:
+      - strict-origin-when-cross-origin
+      Server:
+      - nginx
+      Strict-Transport-Security:
+      - max-age=31536000
+      Vary:
+      - Origin
+      X-Content-Type-Options:
+      - nosniff
+      X-Frame-Options:
+      - SAMEORIGIN
+      X-Request-Id:
+      - XKSnCsL9rx9
+      X-Runtime:
+      - '0.162423'
+    status:
+      code: 200
+      message: OK
+version: 1
