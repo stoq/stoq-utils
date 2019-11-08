@@ -78,4 +78,23 @@ plugin-egg:
 	# Fix egg pyc files
 	#python3 utils/fix_py3_egg.py dist/*py3.5.egg
 
-.PHONY: check-source check-source-all validatecoverage virtualenv-deps debsource wheel pypi-upload
+clean: clean-eggs clean-build clean-docs
+	@find . -iname '*.pyc' -delete
+	@find . -iname '*.pyo' -delete
+	@find . -iname '*~' -delete
+	@find . -iname '*.swp' -delete
+	@find . -iname '__pycache__' -delete
+
+clean-eggs:
+	@find . -name '*.egg' -delete
+	@rm -rf .eggs/
+
+clean-build:
+	@rm -fr build/
+	@rm -fr dist/
+	@rm -fr *.egg-info
+
+clean-docs:
+	@rm -fr docs/build/
+
+.PHONY: check-source check-source-all validatecoverage virtualenv-deps debsource wheel pypi-upload clean
