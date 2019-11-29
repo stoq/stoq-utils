@@ -11,4 +11,7 @@ repos:
     rev: 1.18.2
     hooks:
       - id: prettier
+        files: "\\.(\
+          js|jsx\
+          )$"
         args: [--trailing-comma=es5, --print-width=100]
