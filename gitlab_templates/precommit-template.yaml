@@ -2,5 +2,6 @@
   image: stoqdev2/pre-commit:latest
   stage: pre_commit
   script:
+    - git fetch origin master
     - pre-commit run --source `git rev-list origin/master -1` --origin HEAD
 
