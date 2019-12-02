@@ -1,4 +1,4 @@
-pre_commit:
+.pre_commit:
   image: stoqdev2/pre-commit:latest
   stage: pre_commit
   script:
