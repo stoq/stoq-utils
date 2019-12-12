@@ -39,3 +39,13 @@ repos:
   hooks:
     - id: mypy
       args: [--no-strict-optional, --ignore-missing-imports]
+
+- repo: local
+  hooks:
+  - id: check-fixes
+    name: check_fixes_in_commit_message
+    description: Include the link for the issue being fixed by the commit
+    language: pygrep
+    entry: '^(?!.*Fi(x|es|xed|xing):|.*Clos(e|es|ing|ed):|.*Resolv(e|es|ed|ing):|.*Related to:|.*Implemen(t|ts|ted|ting):).*$'
+    stages: [commit-msg]
+    args: [--ignore-case]

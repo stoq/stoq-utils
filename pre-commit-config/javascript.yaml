@@ -16,3 +16,14 @@ repos:
           js|jsx\
           )$"
         args: [--trailing-comma=es5, --print-width=100]
+
+  - repo: local
+    hooks:
+    - id: check-fixes
+      name: check_fixes_in_commit_message
+      description: Include the link for the issue being fixed on the commit message
+      language: pygrep
+      # (Clos(e|es|ed|ing)|Fi(x|xes|xed|xing)|Resolv(e|es|ed|ing)|Implemen(t|ts|ted|ting)|Related to)
+      entry: '^(?!.*Fi(x|es|xed|xing):|.*Clos(e|es|ing|ed):|.*Resolv(e|es|ed|ing):|.*Related to:|.*Implemen(t|ts|ted|ting):).*$'
+      stages: [commit-msg]
+      args: [--ignore-case]
