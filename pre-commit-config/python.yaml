@@ -27,8 +27,8 @@ repos:
   hooks:
     - id: python-check-mock-methods
 
-- repo: https://github.com/olist/hulks
-  rev: 0.4.0
+- repo: https://github.com/lamenezes/hulks
+  rev: 0.4.1
   hooks:
     - id: check-invalid-domains
     - id: check-logger
