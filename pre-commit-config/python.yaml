@@ -14,7 +14,7 @@ repos:
     - id: trailing-whitespace
     - id: no-commit-to-branch
     - id: flake8
-      args: ['--exclude=docs/*,*migrations*', '--ignore=E501,W504,W503']
+      args: ['--exclude=docs/*,*migrations*', '--ignore=E501,W504,W503,E252']
 
 - repo: https://github.com/pre-commit/mirrors-isort
   rev: v4.3.21
