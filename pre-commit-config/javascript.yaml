@@ -27,3 +27,10 @@ repos:
       entry: '^(?!.*Fi(x|es|xed|xing):|.*Clos(e|es|ing|ed):|.*Resolv(e|es|ed|ing):|.*Related to:|.*Implemen(t|ts|ted|ting):).*$'
       stages: [commit-msg]
       args: [--ignore-case]
+    - id: eslint
+      name: eslint
+      description: Make sure to make eslint happy
+      language: script
+      entry: node_modules/.bin/eslint
+      stages: [commit]
+      args: [--ext js,jsx]
