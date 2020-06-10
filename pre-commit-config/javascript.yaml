@@ -30,7 +30,7 @@ repos:
     - id: eslint
       name: eslint
       description: Make sure to make eslint happy
-      language: script
+      language: node
       entry: node_modules/.bin/eslint
       stages: [commit]
       args: [--ext js,jsx]
