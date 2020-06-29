@@ -86,7 +86,7 @@ clean: clean-eggs clean-build clean-docs
 	@find . -iname '__pycache__' -delete
 
 clean-eggs:
-	@find . -name '*.egg' -delete
+	@find . -type f -name '*.egg' -delete
 	@rm -rf .eggs/
 
 clean-build:
