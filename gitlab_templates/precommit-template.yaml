@@ -4,4 +4,11 @@
   script:
     - git fetch origin master
     - pre-commit run --source `git rev-list origin/master -1` --origin HEAD
-
+  variables:
+    PRE_COMMIT_HOME: $CI_PROJECT_DIR/.cache/pre-commit
+  cache:
+    key:
+      files:
+        - .pre-commit-config.yaml
+    paths:
+      - $CI_PROJECT_DIR/.cache
