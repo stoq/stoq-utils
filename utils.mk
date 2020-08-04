@@ -21,7 +21,7 @@
 
 # This needs to be updated when a new Ubuntu release is out or
 # one of those reaches EOL
-SUPPORTED_DISTROS=xenial bionic cosmic disco
+SUPPORTED_DISTROS=xenial bionic eoan focal groovy
 
 check-source:
 	@utils/source-tests.sh --modified
