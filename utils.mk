@@ -36,6 +36,7 @@ virtualenv-deps:
 	pip install -r requirements.txt
 
 dist:
+	pybabel compile -d locale -D $(PACKAGE) || true
 	python3 setup.py sdist
 	tar -zxvf dist/*.tar.gz -C dist
 
