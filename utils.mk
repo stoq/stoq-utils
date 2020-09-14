@@ -57,10 +57,11 @@ debsource: dist
 	@echo
 
 wheel:
+	@rm -rf dist/*
 	python3 setup.py sdist bdist_wheel
 
-wheel-upload:
-	python3 setup.py sdist bdist_wheel upload
+wheel-upload: wheel
+	twine upload dist/*
 
 plugin-egg:
 	# Set current git commit to plugin config file
