@@ -13,3 +13,15 @@ upload_egg_beta:
     - branches
   script:
     - curl -F "egg=@dist/`ls dist`" -F channel=alpha ${EGG_UPLOAD_URL}
+
+
+gitlab_pypi_upload:
+  stage: deploy
+  only:
+    - master
+  when: manual
+  script:
+    - rm -rf dist/*
+    - poetry build
+    - pip install -U twine
+    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token twine upload --repository-url "https://gitlab.com/api/v4/projects/${CI_PROJECT_ID}/packages/pypi" dist/*
