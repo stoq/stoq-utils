@@ -37,7 +37,7 @@ virtualenv-deps:
 
 requirements.txt: pyproject.toml
 	poetry export -f requirements.txt --without-hashes -o requirements.txt
-	echo '--extra-index-url https://__token__:'"${GITLAB_PYPI_TOKEN}"'@gitlab.com/api/v4/projects/13882298/packages/pypi/simple/\n' > requirements.txt
+	echo '--extra-index-url https://__token__:'"${GITLAB_PYPI_TOKEN}"'@gitlab.com/api/v4/projects/13882298/packages/pypi/simple/\n' >> requirements.txt
 
 dist:
 	pybabel compile -d $(PACKAGE)/locale -D $(PACKAGE) || true
