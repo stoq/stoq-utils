@@ -104,7 +104,7 @@ clean-docs:
 	@rm -fr docs/build/
 
 ci-check-bump:
-	git show --no-patch ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} $(PACKAGE)/__init__.py && \
+	git show --name-only | grep  $(PACKAGE)/__init__.py && \
 		echo "Version bumped!" || \
 		echo "You have to bump the version of this project. Check https://gitlab.com/stoqtech/private/bdil/-/wikis/Atualizar-versao-dos-projetos"
 
