@@ -104,8 +104,8 @@ clean-docs:
 	@rm -fr docs/build/
 
 ci-check-bump:
-	git diff --no-patch ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} $(PACKAGE)/__init__.py && \
+	git show --no-patch ${CI_MERGE_REQUEST_TARGET_BRANCH_NAME} $(PACKAGE)/__init__.py && \
 		echo "Version bumped!" || \
-		echo "You have to bump the version of this project by running, for example: bumpversion minor"
+		echo "You have to bump the version of this project. Check https://gitlab.com/stoqtech/private/bdil/-/wikis/Atualizar-versao-dos-projetos"
 
 .PHONY: check-source check-source-all validatecoverage virtualenv-deps debsource wheel pypi-upload clean
