@@ -1,0 +1,69 @@
+config:
+  environment.DISPLAY: :0
+  raw.idmap: both 1000 1000
+  user.user-data: |
+    #cloud-config
+    write_files:
+      - content: |
+          #!/bin/bash
+          set -e
+          if [ -f ~/.poetry/bin/poetry ]; then
+            echo "Poetry already bootstrapped!"
+            exit
+          fi
+          echo "Bootstraping poetry ..."
+          curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py > /tmp/get-poetry.py
+          python3 /tmp/get-poetry.py --force --yes
+          RELEASE="$(lsb_release -sr)"
+          echo "Post installation fixes for: $RELEASE"
+          case "$RELEASE" in
+            16.04)
+              # twice for lucky
+              python3 -m pip install --upgrade pip poetry || python3 -m pip install --upgrade pip poetry
+              ;;
+            *)
+              echo "Nothing needed!"
+              ;;
+          esac
+          echo "Poetry bootstraped ... \`source \$HOME/.poetry/env\` to use it in this shell."
+        path: /home/ubuntu/poetry_bootstrap.sh
+    runcmd:
+      - 'sed -i "s/; enable-shm = yes/enable-shm = no/g" /etc/pulse/client.conf'
+      - 'echo export PULSE_SERVER=unix:/tmp/.pulse-native | tee --append /home/ubuntu/.profile'
+      - 'chown ubuntu.ubuntu /home/ubuntu/.profile'
+      - 'chown ubuntu.ubuntu /home/ubuntu'
+      - 'chown ubuntu.ubuntu /home/ubuntu/poetry_bootstrap.sh'
+      - 'chmod +x /home/ubuntu/poetry_bootstrap.sh'
+      - 'sudo -u ubuntu /home/ubuntu/poetry_bootstrap.sh'
+      - 'sudo -u postgres createuser ubuntu -drs'
+      - 'sudo -u ubuntu touch /home/ubuntu/STOQDEV_DONE'
+    packages:
+      - x11-apps
+      - mesa-utils
+      - pulseaudio
+      - libjpeg8-dev
+      - zlib1g-dev
+      - libnss3-dev
+      - libffi-dev
+      - libssl-dev
+      - poppler-utils
+      - libxml2-utils
+      - postgresql
+      - python3-pip
+description: STOQ development profile
+devices:
+  PASocket:
+    path: /tmp/.pulse-native
+    source: /run/user/1000/pulse/native
+    type: disk
+  X0:
+    path: /tmp/.X11-unix/X0
+    source: /tmp/.X11-unix/X0
+    type: disk
+  homedir:
+    path: /home/ubuntu/Development
+    source: /home/cprov/Development
+    type: disk
+  mygpu:
+    type: gpu
+name: stoqdev
