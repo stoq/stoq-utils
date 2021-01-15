@@ -1,4 +1,4 @@
-config:
+xconfig:
   environment.DISPLAY: :0
   raw.idmap: both 1000 1000
   user.user-data: |
@@ -7,10 +7,11 @@ config:
       - content: |
           #!/bin/bash
           set -e
-          if [ -f ~/.poetry/bin/poetry ]; then
-            echo "Poetry already bootstrapped!"
+          if [ -f ~/STOQDEV_DONE ]; then
+            echo "Stoq development already bootstrapped!"
             exit
           fi
+          rm -f ~/STOQDEV_DONE
           echo "Bootstraping poetry ..."
           curl -sSL https://raw.githubusercontent.com/python-poetry/poetry/master/get-poetry.py > /tmp/get-poetry.py
           python3 /tmp/get-poetry.py --force --yes
@@ -25,18 +26,27 @@ config:
               echo "Nothing needed!"
               ;;
           esac
-          echo "Poetry bootstraped ... \`source \$HOME/.poetry/env\` to use it in this shell."
-        path: /home/ubuntu/poetry_bootstrap.sh
+          echo "Bootstraping NVM and yarn ..."
+          curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
+          source /home/ubuntu/.nvm/nvm.sh
+          nvm install v10
+          nvm use v10
+          curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+          echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+          sudo apt update && sudo apt install yarn -y
+          npm install -g firebase-tools
+          touch ~/STOQDEV_DONE
+          echo "Stoq development bootstraped ..."
+        path: /home/ubuntu/bootstrap.sh
     runcmd:
       - 'sed -i "s/; enable-shm = yes/enable-shm = no/g" /etc/pulse/client.conf'
       - 'echo export PULSE_SERVER=unix:/tmp/.pulse-native | tee --append /home/ubuntu/.profile'
       - 'chown ubuntu.ubuntu /home/ubuntu/.profile'
       - 'chown ubuntu.ubuntu /home/ubuntu'
-      - 'chown ubuntu.ubuntu /home/ubuntu/poetry_bootstrap.sh'
-      - 'chmod +x /home/ubuntu/poetry_bootstrap.sh'
-      - 'sudo -u ubuntu /home/ubuntu/poetry_bootstrap.sh'
+      - 'chown ubuntu.ubuntu /home/ubuntu/bootstrap.sh'
+      - 'chmod +x /home/ubuntu/bootstrap.sh'
+      - 'sudo -u ubuntu /home/ubuntu/bootstrap.sh'
       - 'sudo -u postgres createuser ubuntu -drs'
-      - 'sudo -u ubuntu touch /home/ubuntu/STOQDEV_DONE'
     packages:
       - x11-apps
       - mesa-utils
@@ -50,6 +60,8 @@ config:
       - libxml2-utils
       - postgresql
       - python3-pip
+      - libcups2
+      - openjdk-9-jre-headless
 description: STOQ development profile
 devices:
   PASocket:
