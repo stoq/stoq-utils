@@ -1,4 +1,4 @@
-xconfig:
+config:
   environment.DISPLAY: :0
   raw.idmap: both 1000 1000
   user.user-data: |
@@ -48,20 +48,23 @@ xconfig:
       - 'sudo -u ubuntu /home/ubuntu/bootstrap.sh'
       - 'sudo -u postgres createuser ubuntu -drs'
     packages:
-      - x11-apps
-      - mesa-utils
-      - pulseaudio
-      - libjpeg8-dev
-      - zlib1g-dev
-      - libnss3-dev
-      - libffi-dev
-      - libssl-dev
-      - poppler-utils
-      - libxml2-utils
-      - postgresql
-      - python3-pip
       - libcups2
+      - libffi-dev
+      - libjpeg8-dev
+      - libnss3-dev
+      - libpango1.0-0
+      - libpq-dev
+      - libssl-dev
+      - libxml2-utils
+      - mesa-utils
       - openjdk-9-jre-headless
+      - poppler-utils
+      - postgresql
+      - pulseaudio
+      - python3-pip
+      - swig
+      - x11-apps
+      - zlib1g-dev
 description: STOQ development profile
 devices:
   PASocket:
