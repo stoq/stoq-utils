@@ -48,6 +48,7 @@ config:
       - 'sudo -u ubuntu /home/ubuntu/bootstrap.sh'
       - 'sudo -u postgres createuser ubuntu -drs'
     packages:
+      - default-jre-headless
       - libcups2
       - libffi-dev
       - libjpeg8-dev
@@ -57,7 +58,6 @@ config:
       - libssl-dev
       - libxml2-utils
       - mesa-utils
-      - openjdk-9-jre-headless
       - poppler-utils
       - postgresql
       - pulseaudio
