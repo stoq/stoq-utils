@@ -26,6 +26,8 @@ config:
               echo "Nothing needed!"
               ;;
           esac
+          echo "Generating locales needed ..."
+          sudo locale-gen pt_BR.UTF-8
           echo "Bootstraping NVM and yarn ..."
           curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
           source /home/ubuntu/.nvm/nvm.sh
@@ -51,13 +53,17 @@ config:
       - default-jre-headless
       - libcups2
       - libffi-dev
+      - libgdk-pixbuf2.0-0
+      - libgtk-3-0
       - libjpeg8-dev
       - libnss3-dev
       - libpango1.0-0
       - libpangocairo-1.0-0
       - libpq-dev
       - libssl-dev
+      - libxcomposite1
       - libxml2-utils
+      - libxss1
       - mesa-utils
       - poppler-utils
       - postgresql
