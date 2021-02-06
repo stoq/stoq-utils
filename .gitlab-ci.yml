@@ -1,7 +1,7 @@
 image: cprov/stoq:candidate
 
 before_script:
-  - easy_install3 pip
+  - easy_install3 "pip < 21.0"
   - pip install pytest pytest-cov vcrpy
 
 stages:
