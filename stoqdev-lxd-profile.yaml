@@ -20,7 +20,7 @@ config:
           case "$RELEASE" in
             16.04)
               # twice for lucky
-              python3 -m pip install --upgrade pip poetry || python3 -m pip install --upgrade pip poetry
+              python3 -m pip install --upgrade "pip < 21.0" poetry || python3 -m pip install --upgrade "pip < 21.0" poetry
               ;;
             *)
               echo "Nothing needed!"
