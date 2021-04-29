@@ -24,4 +24,4 @@ gitlab_pypi_upload:
     - rm -rf dist/*
     - poetry build || xvfb-run make wheel
     - pip install -U twine
-    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token twine upload --skip-existing --repository-url "https://gitlab.luizalabs.com/api/v4/projects/6385/packages/pypi" dist/*
+    - TWINE_PASSWORD=${CI_JOB_TOKEN} TWINE_USERNAME=gitlab-ci-token twine upload --skip-existing --repository-url "${PYPI_URL}" dist/*
